@@ -3,3 +3,6 @@ This C++ application generates a random EDS (Elastic Degenerate String) file bas
 
 ## Installation
 Use make command to compile the cpp program
+
+
+##Test di commit nuova

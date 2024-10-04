@@ -11,6 +11,14 @@ using namespace std;
 
 
 //FUNCTIONS ----------------------------------------------------------
+void displayHelp() {
+    std::cout << "Usage: my_program [options]\n";
+    std::cout << "Options:\n";
+    std::cout << "  --help         Show this help message\n";
+    std::cout << "  outputname     Name of the output file\n";
+    std::cout << "  TOTsize        Total size for the output\n";
+}
+
 void option1(std::string outfilename, int totSize){
     char sigma[SIGMA_SIZE] = SIGMA;
     std::cout << "Gen RAW-String" << std::endl;
@@ -50,11 +58,18 @@ void option4(){
 //MAIN ----------------------------------------------------------------
 int main(int argc, char* argv[]){
 
+       // Verifica gli argomenti passati
+    if (argc > 1 && std::string(argv[1]) == "--help") {
+        displayHelp();
+        return 0;
+    }
     if(argc != 3){
         std::cerr << "Errore: Questo programma richiede 2 parametri." << std::endl;
         std::cerr << "Uso: " << argv[0] << " <output> <TOTsize> [--Option1 --Option2] " << std::endl;
         return 1;
     }
+ 
+
 
     std::string outfilename = argv[1]; 
     int totSize = std::stoi(argv[2]);

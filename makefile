@@ -17,8 +17,12 @@ $(TARGET): $(SRCS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS)
 
 # Regola per eseguire il programma con parametri passati
+# Regola per eseguire il programma con parametri
 run: $(TARGET)
-	./$(TARGET) $(PARAM1) $(PARAM2)
+	@read -p "Enter output name: " outputname; \
+	read -p "Enter TOTsize: " totsize; \
+	./$(TARGET) $$outputname $$totsize
+
 
 # Pulire i file oggetto e l'eseguibile
 clean:

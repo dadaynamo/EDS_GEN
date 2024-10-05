@@ -1,11 +1,4 @@
-# EDS_GEN
-This C++ application generates a random EDS (Elastic Degenerate String) file based on user-defined parameters like max file length, elastic word structure, repetitiveness, and percentage of degenerate symbols. It provides flexibility for creating customizable EDS files for analysis and testing.
-
-## Installation
-Use make command to compile the cpp program
-
-## Usage: 
-EDS-GEN [options] [arguments]
+Usage: EDS-GEN [options] [arguments]
 
 Options:
   --help                        Show this help message and exit.
@@ -36,7 +29,7 @@ Options:
 
   --version                      Display the version of the program and exit.
 
-### Examples:
+Examples:
   EDS-GEN --output sequence.txt --size 500 --repeatability 3 --degenerate 20
   EDS-GEN --output genome.fasta --size 1000 --alphabet genomic
   EDS-GEN --output proteins.txt --alphabet amino

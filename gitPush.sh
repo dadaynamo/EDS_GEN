@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Aggiunge tutti i file modificati e nuovi
-git add *
+git add -u *
 
 # Chiede all'utente di inserire un messaggio per il commit
 echo "Enter the commit message: "

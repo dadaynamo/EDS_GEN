@@ -11,6 +11,9 @@ EDS-GEN [options] [arguments]
 
 Options:
   --help                        Show this help message and exit.
+  
+  --type <type>                 Specify the type of sequences.
+                                 Example: --type [RAW, EDS, EDS-intensive]
 
   --output <outputfile>          Specify the name of the output file.
                                  Example: --output result.txt
@@ -18,33 +21,34 @@ Options:
   --size <TOTsize>               Set the maximum size of the generated output.
                                  Example: --size 1000
 
-  --repeatability <level>        Set the repeatability level for the EDS (Elastic Degenerate Sequence).
+  --maxdeg <maxdeg>         Set the max number  of degenerate symbols in the generated sequence.
+                                 Accepted max values: 100.
+                                 Example: --maxdeg 25
+                              
+
+  --repeatability <level>        Set the repeatability level for the EDS (Elastic Degenerate Sequence).(NOT IN USE)
                                  Accepted values: 1 to 10.
                                  Example: --repeatability 5
 
-  --degenerate <percentage>      Set the percentage of degenerate symbols in the generated sequence.
+  --degenerate <percentage>      Set the percentage of degenerate symbols in the generated sequence.(NOT IN USE)
                                  Accepted values: 0 to 100.
                                  Example: --degenerate 25
 
-  --seed <seedvalue>             Specify a seed for random number generation to ensure repeatable results.
+  --seed <seedvalue>             Specify a seed for random number generation to ensure repeatable results.(NOT IN USE)
                                  Example: --seed 12345
 
-  --alphabet <alphabetType>      Specify the type of alphabet used in the generation.
-                                 Options: "genomic", "amino", "custom"
-                                 Example: --alphabet genomic
-
-  --custom-alphabet <string>     If --alphabet is set to "custom", define the custom alphabet.
+  --custom-alphabet <string>     If --alphabet is set to "custom", define the custom alphabet. (NOT IN USE)
                                  Example: --custom-alphabet "abcdxyz"
 
   --version                      Display the version of the program and exit.
 
 ### Examples:
 ```
-  EDS-GEN --output sequence.txt --size 500 --repeatability 3 --degenerate 20
+  ./EDS-GEN --output sequence.txt --size 500 --repeatability 3 --degenerate 20
 ```
 ```
-  EDS-GEN --output genome.fasta --size 1000 --alphabet genomic
+  ./EDS-GEN --output genome.fasta --size 1000 --alphabet genomic
 ```
 ``` 
-  EDS-GEN --output proteins.txt --alphabet amino
+  ./EDS-GEN --output proteins.txt --alphabet amino
 ```

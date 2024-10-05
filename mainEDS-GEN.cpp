@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstring> // Necessario per strcmp
 #include <cstdlib>  // Per rand() e srand()
 #include <ctime>    // Per time()
 #include <fstream> // Libreria per la gestione dei file
@@ -10,6 +11,13 @@ using namespace std;
 #define SIGMA_SIZE 4  // Dimensione dell'array
 #define SIGMA {'a', 'c', 'g', 't'}  // Definizione dell'array di caratteri
 
+//GLOBAL VARS --------------------------------------------------------
+
+std::string outName; //file name senza estensione
+int maxPerDeg; //numero massimo di stringhe in un insieme
+int totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
+int numDegeneration; //numero di insiemi
+char type;
 
 //FUNCTIONS ----------------------------------------------------------
 int displayHelp() {
@@ -52,7 +60,7 @@ int displayHelp() {
 
 }
 
-int option1(std::string outfilename, int totSize, std::ofstream& file){
+int rawGeneration(std::string outfilename, int totSize, std::ofstream& file){
     char sigma[SIGMA_SIZE] = SIGMA;
     std::cout << "Gen RAW-String" << std::endl;
 
@@ -80,45 +88,89 @@ int option1(std::string outfilename, int totSize, std::ofstream& file){
     return 0;
 }
 
-void option2(){
-    std::cout << "Hai scelto l'opzione 1." << std::endl;
+void printGlobal (){
+    cout << "outName " << outName << endl;
+    cout << "maxPerDeg " << maxPerDeg << endl;
+    cout << "totSize " << totSize << endl;
+    cout << "numDegeneration " << numDegeneration << endl;
+    cout << "Type " << type << endl;
 }
-void option3(){
-    std::cout << "Hai scelto l'opzione 1." << std::endl;
-}
-void option4(){
-    std::cout << "Hai scelto l'opzione 1." << std::endl;
-}
-
 
 //MAIN ----------------------------------------------------------------
 int main(int argc, char* argv[]){
 
-       // Verifica gli argomenti passati
-    if (argc > 1 && std::string(argv[1]) == "--help") {
+    // Verifica gli argomenti passati
+    if (argc > 1 && std::string(argv[1]) == "--help"){
         displayHelp();
         return 0;
     }
-    if(argc != 3){
-        std::cerr << "Errore: Questo programma richiede 2 parametri." << std::endl;
-        std::cerr << "Uso: " << argv[0] << " <output> <TOTsize> [--Option1 --Option2] " << std::endl;
-        return 1;
-    }
+
  
 
+    // Analizza gli argomenti della riga di comando
+    for(int i = 1; i < argc; i += 2) {
+        if (strcmp(argv[i], "--type") == 0) {
+            if (i + 1 < argc) { // Controlla se c'è un argomento successivo
+                if (strcmp(argv[i + 1], "R") == 0) {
+                    type = 'R'; // RAW Generation
+                } else if (strcmp(argv[i + 1], "E") == 0) {
+                    type = 'E'; // EDS Generation
+                } else if (strcmp(argv[i + 1], "D") == 0) {
+                    type = 'D'; // EDS-Intensive Generation
+                } else {
+                    type = 'R'; // Valore predefinito
+                }
+            }
+        } else if (strcmp(argv[i], "--maxPerDeg") == 0) {
+            if (i + 1 < argc) {
+                maxPerDeg = std::stoi(argv[i + 1]); // Converte in intero
+            }
+        } else if (strcmp(argv[i], "--numDeg") == 0) {
+            if (i + 1 < argc) {
+                numDegeneration = std::stoi(argv[i + 1]); // Converte in intero
+            }
+        } else if (strcmp(argv[i], "--totSize") == 0) {
+            if (i + 1 < argc) {
+                totSize = std::stoi(argv[i + 1]); // Converte in intero
+            }
+        } else if (strcmp(argv[i], "--outputName") == 0) {
+            if (i + 1 < argc) {
+                outName = argv[i + 1]; // Assegna il nome del file
+            }
+        }
+    }
 
-    std::string outfilename = argv[1]; 
-    int totSize = std::stoi(argv[2]);
-
+    /*
+    
      // Crea un oggetto di tipo ofstream per aprire il file in modalità di scrittura
-    std::ofstream file(outfilename+".txt");
+    std::ofstream file(outName+".txt");
        // Controlla se il file è stato aperto correttamente
     if (!file) {
         std::cerr << "Errore nell'apertura del file!" << std::endl;
         return 1;
     }
 
-    //char SIGMA[4] = {'a', 'c', 'g', 't'}; //alfabeto genomico
+    */
+
+    //eseguo la funzione di generazione
+    
+    printGlobal();
+    return 0;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Cose inutili
+   //char SIGMA[4] = {'a', 'c', 'g', 't'}; //alfabeto genomico
 
     int choice;
 
@@ -156,6 +208,39 @@ int main(int argc, char* argv[]){
         }
     } while (choice != 0);  // Continua finché l'utente non sceglie di uscire
 
-    return 0;
 
-}
+
+
+
+   for(int i = 1 ; i<argc ; i=i+2){
+        if(argv[i] == "--type"){
+            switch (argv[i+1]){
+                case 'R':
+                    type = 'R'; //RAW Generation
+                    break;
+                case 'E':
+                    type = 'E'; //EDS Generation
+                    break;
+                case 'D':
+                    type = 'D'; //EDS-Intensive Generation
+                    break;
+                default:
+                    type = "R";
+                    break;
+            }
+            
+                std::string outName; //file name senza estensione
+                int maxPerDeg; //numero massimo di stringhe in un insieme
+                int totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
+                int numDegeneration; //numero di insiemi
+                char type;
+            
+        }elseif(argv[i] == "--maxPerDeg") maxPerDeg = argv[i+1];
+        elseif(argv[i] == "--numDeg") numDegeneration = argv[i+1];
+        elseif(argv[i] == "--totSize") totSize = argv[i+1];
+        elseif(argv[i] == "--outputName") outName = argv[i+1];
+        
+        
+        
+    }
+*/

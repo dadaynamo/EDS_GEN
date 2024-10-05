@@ -115,8 +115,8 @@ int main(int argc, char* argv[]){
                     type = 'R'; // RAW Generation
                 } else if (strcmp(argv[i + 1], "E") == 0) {
                     type = 'E'; // EDS Generation
-                } else if (strcmp(argv[i + 1], "D") == 0) {
-                    type = 'D'; // EDS-Intensive Generation
+                } else if (strcmp(argv[i + 1], "I") == 0) {
+                    type = 'I'; // EDS-Intensive Generation
                 } else {
                     type = 'R'; // Valore predefinito
                 }
@@ -140,20 +140,23 @@ int main(int argc, char* argv[]){
         }
     }
 
-    /*
+       
+    // Crea un oggetto di tipo ofstream per aprire il file in modalità di scrittura
+    if(type == "R")
+        std::ofstream file(outName+".txt");
+    if(type == "E" || type == "I")
+        std::ofstream file(outName+".eds");
     
-     // Crea un oggetto di tipo ofstream per aprire il file in modalità di scrittura
-    std::ofstream file(outName+".txt");
-       // Controlla se il file è stato aperto correttamente
+    // Controlla se il file è stato aperto correttamente
     if (!file) {
         std::cerr << "Errore nell'apertura del file!" << std::endl;
         return 1;
     }
 
-    */
+    
 
     //eseguo la funzione di generazione
-    
+
     printGlobal();
     return 0;
 

@@ -1,5 +1,5 @@
 # Nome del programma eseguibile
-TARGET = my_program
+TARGET = mainEDS-GEN
 
 # Compilatore
 CXX = g++

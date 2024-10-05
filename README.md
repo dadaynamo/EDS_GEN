@@ -5,7 +5,9 @@ This C++ application generates a random EDS (Elastic Degenerate String) file bas
 Use make command to compile the cpp program
 
 ## Usage: 
+```
 EDS-GEN [options] [arguments]
+```
 
 Options:
   --help                        Show this help message and exit.
@@ -37,6 +39,12 @@ Options:
   --version                      Display the version of the program and exit.
 
 ### Examples:
+```
   EDS-GEN --output sequence.txt --size 500 --repeatability 3 --degenerate 20
+```
+```
   EDS-GEN --output genome.fasta --size 1000 --alphabet genomic
+```
+``` 
   EDS-GEN --output proteins.txt --alphabet amino
+```

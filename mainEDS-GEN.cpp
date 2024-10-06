@@ -34,6 +34,20 @@ int generateRandomNumber(int min, int max) { //gen num tra min e max compresi
     return distrib(gen);
 }
 
+int displayVersion(){
+       std::cout << "---------------------------------------------------" << std::endl;
+    std::cout << "                EDS-GEN Program                    " << std::endl;
+    std::cout << "---------------------------------------------------" << std::endl;
+    std::cout << "Versione: 1.0.0" << std::endl;
+    std::cout << "Autore: Mattia Laszlo Daday" << std::endl;
+    std::cout << "Anno: 2024/2025" << std::endl;
+    std::cout << "Descrizione: Questo programma genera sequenze degenerate " << std::endl;
+    std::cout << "basate su input specificati dall'utente. È possibile " << std::endl;
+    std::cout << "personalizzare la generazione di sequenze con vari parametri " << std::endl;
+    std::cout << "come dimensione, tipo di sequenza e percentuale di simboli degenerati." << std::endl;
+    std::cout << "---------------------------------------------------" << std::endl;
+    return 0;
+}
 int displayHelp() {
  std::cout << "Usage: EDS-GEN [options] [arguments]" << std::endl;
     std::cout << std::endl;
@@ -73,7 +87,6 @@ int displayHelp() {
     return 0;
 
 }
-
 int rawGeneration(std::ofstream& file){
     //char sigma[SIGMA_SIZE] = SIGMA;
     std::cout << "Gen RAW-String" << std::endl;
@@ -101,7 +114,6 @@ int rawGeneration(std::ofstream& file){
     file.close();
     return 0;
 }
-
 std::string generateString (){
 
     std::string s;
@@ -112,7 +124,6 @@ std::string generateString (){
     }
     return s;
 }
-
 int edsGeneration(std::ofstream& file){
  
     std::string output;
@@ -137,8 +148,6 @@ int edsGeneration(std::ofstream& file){
     file.close();
     return 0;
 }
-
-
 void printGlobal (){
     cout << "outName " << outName << endl;
     cout << "maxPerDeg " << maxPerDeg << endl;
@@ -159,6 +168,13 @@ int main(int argc, char* argv[]){
     // Verifica gli argomenti passati
     if (argc > 1 && std::string(argv[1]) == "--help"){
         displayHelp();
+        return 0;
+    }
+
+
+    // Verifica gli argomenti passati
+    if (argc > 1 && std::string(argv[1]) == "--version"){
+        displayVersion();
         return 0;
     }
 

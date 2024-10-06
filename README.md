@@ -12,20 +12,22 @@ EDS-GEN [options] [arguments]
 Options:
   --help                        Show this help message and exit.
   
-  --type <type>                 Specify the type of sequences.
-                                 Example: --type [RAW, EDS, EDS-intensive]
+  --type <type>                 Specify the type of sequences (Raw, Eds, Eds-intensive, Test)
+                                 Example: --type [R, E, I, T]
 
   --output <outputfile>          Specify the name of the output file.
                                  Example: --output result.txt
   
-  --size <TOTsize>               Set the maximum size of the generated output.
+  --totSize <TOTsize>               Set the maximum size of the generated output.
                                  Example: --size 1000
 
-  --maxdeg <maxdeg>         Set the max number  of degenerate symbols in the generated sequence.
-                                 Accepted max values: 100.
-                                 Example: --maxdeg 25
+  --maxPerDeg <maxPerDeg>         Set the max number  of degenerate symbols in the generated sequence.
+                                 Example: --maxPerDeg 25
                               
 
+--numDeg <numDeg>         Set the max number  of degenerate symbols in the generated sequence.
+                                 Example: --numDeg 5
+                              
   --repeatability <level>        Set the repeatability level for the EDS (Elastic Degenerate Sequence).(NOT IN USE)
                                  Accepted values: 1 to 10.
                                  Example: --repeatability 5

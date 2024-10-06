@@ -105,7 +105,8 @@ int rawGeneration(std::ofstream& file){
 std::string generateString (){
 
     std::string s;
-      for (int i = 0; i < totSize; ++i) {
+    int random = generateRandomNumber(1,totSize); //per fare le singole parole di dimensione randomica
+      for (int i = 0; i < random; ++i) {
         int random_index = generateRandomNumber(0,3);  // Genera un numero casuale tra 0 e 3
         s += sigma[random_index];  // Concatenazione del carattere casuale
     }
@@ -123,7 +124,7 @@ int edsGeneration(std::ofstream& file){
         for(int j=0; j<random ; j++){ //Crea una parola
             std::string s = generateString();
             degeneration += s;
-            if(j != random) degeneration += ',';
+            if(j != random-1) degeneration += ',';
         }
 
         degeneration += "}";

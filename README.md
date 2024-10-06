@@ -15,8 +15,8 @@ Options:
   --type <type>                 Specify the type of sequences (Raw, Eds, Eds-intensive, Test)
                                  Example: --type [R, E, I, T]
 
-  --output <outputfile>          Specify the name of the output file.
-                                 Example: --output result.txt
+  --output <outputfile>          Specify the name of the output file without the extension.
+                                 Example: --output result
   
   --totSize <TOTsize>               Set the maximum size of the generated output.
                                  Example: --size 1000
@@ -28,15 +28,15 @@ Options:
 --numDeg <numDeg>         Set the max number  of degenerate symbols in the generated sequence.
                                  Example: --numDeg 5
                               
-  --repeatability <level>        Set the repeatability level for the EDS (Elastic Degenerate Sequence).(NOT IN USE)
+  --repeatability <level>        Set the repeatability level for the EDS (Elastic Degenerate Sequence). (NOT IN USE)
                                  Accepted values: 1 to 10.
                                  Example: --repeatability 5
 
-  --degenerate <percentage>      Set the percentage of degenerate symbols in the generated sequence.(NOT IN USE)
+  --degenerate <percentage>      Set the percentage of degenerate symbols in the generated sequence. (NOT IN USE)
                                  Accepted values: 0 to 100.
                                  Example: --degenerate 25
 
-  --seed <seedvalue>             Specify a seed for random number generation to ensure repeatable results.(NOT IN USE)
+  --seed <seedvalue>             Specify a seed for random number generation to ensure repeatable results. (NOT IN USE)
                                  Example: --seed 12345
 
   --custom-alphabet <string>     If --alphabet is set to "custom", define the custom alphabet. (NOT IN USE)

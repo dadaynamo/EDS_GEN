@@ -4,22 +4,36 @@
 #include <cstdlib>  // Per rand() e srand()
 #include <ctime>    // Per time()
 #include <fstream> // Libreria per la gestione dei file
+#include <random>
 
 using namespace std;
 
 //MACROS -------------------------------------------------------------
 #define SIGMA_SIZE 4  // Dimensione dell'array
-#define SIGMA {'a', 'c', 'g', 't'}  // Definizione dell'array di caratteri
+//#define SIGMA {'a', 'c', 'g', 't'}  // Definizione dell'array di caratteri
 
 //GLOBAL VARS --------------------------------------------------------
 
+char sigma[SIGMA_SIZE] = {'a', 'c', 'g', 't'};    
 std::string outName; //file name senza estensione
-int maxPerDeg; //numero massimo di stringhe in un insieme
 int totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
+int maxPerDeg; //numero massimo di stringhe in un insieme
 int numDegeneration; //numero di insiemi
 char type;
 
 //FUNCTIONS ----------------------------------------------------------
+int generateRandomNumber(int min, int max) { //gen num tra min e max compresi
+    // Inizializza il generatore di numeri casuali con un seme basato sul tempo attuale
+    std::random_device rd;  // Generatore casuale basato su hardware
+    std::mt19937 gen(rd());  // Mersenne Twister, un buon generatore di numeri pseudo-casuali
+
+    // Definisce una distribuzione uniforme tra min e max inclusivi
+    std::uniform_int_distribution<> distrib(min, max);
+
+    // Genera il numero casuale
+    return distrib(gen);
+}
+
 int displayHelp() {
  std::cout << "Usage: EDS-GEN [options] [arguments]" << std::endl;
     std::cout << std::endl;
@@ -60,15 +74,15 @@ int displayHelp() {
 
 }
 
-int rawGeneration(std::string outfilename, int totSize, std::ofstream& file){
-    char sigma[SIGMA_SIZE] = SIGMA;
+int rawGeneration(std::ofstream& file){
+    //char sigma[SIGMA_SIZE] = SIGMA;
     std::cout << "Gen RAW-String" << std::endl;
 
     // Inizializza il generatore di numeri casuali
     srand(static_cast<unsigned int>(time(nullptr)));
 
     cout << "------------------------------"  << endl;
-    cout << "filename output -> " << outfilename <<endl;
+    cout << "filename output -> " << outName <<endl;
     cout << "Tot size DNA -> " << totSize <<endl;
     cout << "------------------------------"  << endl;
 
@@ -83,10 +97,46 @@ int rawGeneration(std::string outfilename, int totSize, std::ofstream& file){
 
     cout << "Final RAW-String " << output << endl; 
     file << output;
-    cout << "Scrittura su " << outfilename << " completata." << std::endl;
+    cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();
     return 0;
 }
+
+std::string generateString (){
+
+    std::string s;
+      for (int i = 0; i < totSize; ++i) {
+        int random_index = generateRandomNumber(0,3);  // Genera un numero casuale tra 0 e 3
+        s += sigma[random_index];  // Concatenazione del carattere casuale
+    }
+    return s;
+}
+
+int edsGeneration(std::ofstream& file){
+ 
+    std::string output;
+
+    for(int i = 0; i<numDegeneration; i++){ //Insiemi
+        std::string degeneration = "{";
+
+        int random = generateRandomNumber(1,maxPerDeg); //numero parole in un insieme
+        for(int j=0; j<random ; j++){ //Crea una parola
+            std::string s = generateString();
+            degeneration += s;
+            if(j != random) degeneration += ',';
+        }
+
+        degeneration += "}";
+        output += degeneration; //inserisco un insieme nell'output
+    }
+
+    cout << "output finale: " << output << endl;
+    file << output;
+    cout << "Scrittura su " << outName << " completata." << std::endl;
+    file.close();
+    return 0;
+}
+
 
 void printGlobal (){
     cout << "outName " << outName << endl;
@@ -98,6 +148,12 @@ void printGlobal (){
 
 //MAIN ----------------------------------------------------------------
 int main(int argc, char* argv[]){
+
+    //Verifica 0 parametri 
+    if (argc == 1){
+        std::cerr << "Error: Missing required parameters.\n";
+        return 1;
+    }
 
     // Verifica gli argomenti passati
     if (argc > 1 && std::string(argv[1]) == "--help"){
@@ -117,7 +173,9 @@ int main(int argc, char* argv[]){
                     type = 'E'; // EDS Generation
                 } else if (strcmp(argv[i + 1], "I") == 0) {
                     type = 'I'; // EDS-Intensive Generation
-                } else {
+                }else if (strcmp(argv[i + 1], "T") == 0) {
+                    type = 'T'; // Test
+                }else {
                     type = 'R'; // Valore predefinito
                 }
             }
@@ -142,10 +200,25 @@ int main(int argc, char* argv[]){
 
        
     // Crea un oggetto di tipo ofstream per aprire il file in modalità di scrittura
-    if(type == "R")
-        std::ofstream file(outName+".txt");
-    if(type == "E" || type == "I")
-        std::ofstream file(outName+".eds");
+    
+    // Crea un oggetto di tipo ofstream
+    std::ofstream file;
+
+  
+    // Seleziona il tipo di file in base a 'type'
+    if (type == 'R') {
+        file.open(outName + ".txt");
+    } 
+    else if (type == 'E' || type == 'I') {
+        file.open(outName + ".eds");
+    } 
+    else if (type == 'T') {
+        file.open(outName + ".txt");
+    } 
+    else {
+        std::cout << "Errore Assegnazione TYPE" << std::endl;
+        return 1;
+    }
     
     // Controlla se il file è stato aperto correttamente
     if (!file) {
@@ -153,11 +226,25 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    
 
     //eseguo la funzione di generazione
-
-    printGlobal();
+    switch (type)
+    {
+    case 'R':
+        rawGeneration(file);
+        break;
+    case 'E':
+        edsGeneration(file);
+        break;
+    case 'I':
+        break;
+    case 'T':
+        printGlobal();
+        break;
+    
+    default:
+        break;
+    }
     return 0;
 
 }

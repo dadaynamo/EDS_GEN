@@ -6,7 +6,7 @@ Use make command to compile the cpp program
 
 ## Usage: 
 ```
-EDS-GEN [options] [arguments]
+./EDS-GEN [option] [argument] | ...
 ```
 
 Options:

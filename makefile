@@ -18,10 +18,18 @@ $(TARGET): $(SRCS)
 
 # Regola per eseguire il programma con parametri passati
 # Regola per eseguire il programma con parametri
-run: $(TARGET)
+raw: $(TARGET)
+	@read -p "Enter output name: " outputname; \
+	read -p "Enter TOTsize: " totSize; \
+	./$(TARGET) --outputName $$outputname --totSize $$totSize --type R
+
+eds: $(TARGET)
 	@read -p "Enter output name: " outputname; \
 	read -p "Enter TOTsize: " totsize; \
-	./$(TARGET) $$outputname $$totsize
+	read -p "Enter maxPerDeg: " maxPerDeg; \
+	read -p "Enter numDeg: " numDeg; \
+	
+	./$(TARGET) --outputName $$outputname --totSize $$totsize --maxPerDeg $$maxPerDeg --numDeg $$numDeg --type E
 
 
 # Pulire i file oggetto e l'eseguibile

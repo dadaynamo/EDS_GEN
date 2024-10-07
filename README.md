@@ -5,6 +5,16 @@ This C++ application generates a random EDS (Elastic Degenerate String) file bas
 Use make command to compile the cpp program
 
 ## Usage: 
+### With Makefile
+```
+./make eds
+```
+```
+./make raw
+```
+
+
+### Classic Execution
 ```
 ./EDS-GEN [option] [argument] | ...
 ```

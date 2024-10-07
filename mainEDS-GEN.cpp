@@ -6,6 +6,20 @@
 #include <fstream> // Libreria per la gestione dei file
 #include <random>
 
+/*
+Pensare all'intensive EDS, con qualche pattern molto ripetitivo.
+Aggiungere gli spazi vuoti nelle EDS come degenerazioni
+Prendere spunto da https://github.com/webmasterar/EDSRand/blob/master/EDSRand.py per generazioni particolari
+Fare un getEDSsize.cpp
+
+Provare a implementare questi nuovi parametri
+PARAMETERS ---> EXAMPLES
+- n : number of positions in text T ---> 1000000
+- d% : percentage of positions in text T which are degenerate i.e. represent indels ---> 3
+- S_max : maximum size of set at any position T[i] i.e. maximum number of S_j ---> 3
+- L_max : upper bound on length of any string S_j in T[i] ---> 6
+
+*/
 using namespace std;
 
 //MACROS -------------------------------------------------------------

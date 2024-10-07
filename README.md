@@ -46,11 +46,8 @@ Options:
 
 ### Examples:
 ```
-  ./EDS-GEN --output sequence.txt --size 500 --repeatability 3 --degenerate 20
+  ./mainEDS-GEN --type E --outputName intensive --totSize 1000 --maxPerDeg 2 --numDeg 100 
 ```
 ```
-  ./EDS-GEN --output genome.fasta --size 1000 --alphabet genomic
-```
-``` 
-  ./EDS-GEN --output proteins.txt --alphabet amino
+  ./mainEDS-GEN --type R --outputName intensive --totSize 1000  
 ```

@@ -7,10 +7,10 @@ Use make command to compile the cpp program
 ## Usage: 
 ### With Makefile
 ```
-./make eds
+make eds
 ```
 ```
-./make raw
+make raw
 ```
 
 

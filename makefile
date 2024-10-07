@@ -28,7 +28,6 @@ eds: $(TARGET)
 	read -p "Enter TOTsize: " totsize; \
 	read -p "Enter maxPerDeg: " maxPerDeg; \
 	read -p "Enter numDeg: " numDeg; \
-	
 	./$(TARGET) --outputName $$outputname --totSize $$totsize --maxPerDeg $$maxPerDeg --numDeg $$numDeg --type E
 
 

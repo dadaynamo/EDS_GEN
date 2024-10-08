@@ -30,6 +30,11 @@ eds: $(TARGET)
 	read -p "Enter numDeg: " numDeg; \
 	./$(TARGET) --outputName $$outputname --totSize $$totsize --maxPerDeg $$maxPerDeg --numDeg $$numDeg --type E
 
+help: $(TARGET)
+	./$(TARGET) --help
+
+version: $(TARGET)
+	./$(TARGET) --version
 
 # Pulire i file oggetto e l'eseguibile
 clean:

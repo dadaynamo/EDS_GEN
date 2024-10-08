@@ -19,6 +19,8 @@ PARAMETERS ---> EXAMPLES
 - S_max : maximum size of set at any position T[i] i.e. maximum number of S_j ---> 3
 - L_max : upper bound on length of any string S_j in T[i] ---> 6
 
+
+IMPLEMENTAZIONE EDS TO RAW !!IMPORTANTE
 */
 using namespace std;
 
@@ -48,7 +50,7 @@ int generateRandomNumber(int min, int max) { //gen num tra min e max compresi
     return distrib(gen);
 }
 
-int displayVersion(){
+int displayVersion(){ //mostra la versione del progetto
        std::cout << "---------------------------------------------------" << std::endl;
     std::cout << "                EDS-GEN Program                    " << std::endl;
     std::cout << "---------------------------------------------------" << std::endl;
@@ -62,46 +64,41 @@ int displayVersion(){
     std::cout << "---------------------------------------------------" << std::endl;
     return 0;
 }
-int displayHelp() {
- std::cout << "Usage: EDS-GEN [options] [arguments]" << std::endl;
-    std::cout << std::endl;
-    std::cout << "Options:" << std::endl;
-    std::cout << "  --help                        Show this help message and exit." << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --output <outputfile>          Specify the name of the output file." << std::endl;
-    std::cout << "                                 Example: --output result.txt" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --size <TOTsize>               Set the maximum size of the generated output." << std::endl;
-    std::cout << "                                 Example: --size 1000" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --repeatability <level>        Set the repeatability level for the EDS (Elastic Degenerate Sequence)." << std::endl;
-    std::cout << "                                 Accepted values: 1 to 10." << std::endl;
-    std::cout << "                                 Example: --repeatability 5" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --degenerate <percentage>      Set the percentage of degenerate symbols in the generated sequence." << std::endl;
-    std::cout << "                                 Accepted values: 0 to 100." << std::endl;
-    std::cout << "                                 Example: --degenerate 25" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --seed <seedvalue>             Specify a seed for random number generation to ensure repeatable results." << std::endl;
-    std::cout << "                                 Example: --seed 12345" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --alphabet <alphabetType>      Specify the type of alphabet used in the generation." << std::endl;
-    std::cout << "                                 Options: \"genomic\", \"amino\", \"custom\"" << std::endl;
-    std::cout << "                                 Example: --alphabet genomic" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --custom-alphabet <string>     If --alphabet is set to \"custom\", define the custom alphabet." << std::endl;
-    std::cout << "                                 Example: --custom-alphabet \"abcdxyz\"" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  --version                      Display the version of the program and exit." << std::endl;
-    std::cout << std::endl;
-    std::cout << "Examples:" << std::endl;
-    std::cout << "  EDS-GEN --output sequence.txt --size 500 --repeatability 3 --degenerate 20" << std::endl;
-    std::cout << "  EDS-GEN --output genome.fasta --size 1000 --alphabet genomic" << std::endl;
-    std::cout << "  EDS-GEN --output proteins.txt --alphabet amino" << std::endl;
+int displayHelp() { //descrizione generale
+   std::cout << "Usage:\n";
+    std::cout << "./EDS-GEN [option] [argument] | ...\n\n";
+    
+    std::cout << "Options:\n";
+    std::cout << "  --help                        Show this help message and exit.\n\n";
+    std::cout << "  --type <type>                 Specify the type of sequences (Raw, Eds, Eds-intensive, Test)\n";
+    std::cout << "                                Example: --type [R, E, I, T]\n\n";
+    std::cout << "  --output <outputfile>          Specify the name of the output file without the extension.\n";
+    std::cout << "                                Example: --output result\n\n";
+    std::cout << "  --totSize <TOTsize>           Set the maximum size of the generated output.\n";
+    std::cout << "                                Example: --totSize 1000\n\n";
+    std::cout << "  --maxPerDeg <maxPerDeg>       Set the max number of degenerate symbols in the generated sequence.\n";
+    std::cout << "                                Example: --maxPerDeg 25\n\n";
+    std::cout << "  --numDeg <numDeg>             Set the max number of degenerate symbols in the generated sequence.\n";
+    std::cout << "                                Example: --numDeg 5\n\n";
+    std::cout << "  --repeatability <level>       Set the repeatability level for the EDS (Elastic Degenerate Sequence). (NOT IN USE)\n";
+    std::cout << "                                Accepted values: 1 to 10.\n";
+    std::cout << "                                Example: --repeatability 5\n\n";
+    std::cout << "  --degenerate <percentage>     Set the percentage of degenerate symbols in the generated sequence. (NOT IN USE)\n";
+    std::cout << "                                Accepted values: 0 to 100.\n";
+    std::cout << "                                Example: --degenerate 25\n\n";
+    std::cout << "  --seed <seedvalue>            Specify a seed for random number generation to ensure repeatable results. (NOT IN USE)\n";
+    std::cout << "                                Example: --seed 12345\n\n";
+    std::cout << "  --custom-alphabet <string>    If --alphabet is set to 'custom', define the custom alphabet. (NOT IN USE)\n";
+    std::cout << "                                Example: --custom-alphabet \"abcdxyz\"\n\n";
+    std::cout << "  --version                     Display the version of the program and exit.\n\n";
+
+    std::cout << "Examples:\n";
+    std::cout << "  ./mainEDS-GEN --type E --outputName intensive --totSize 1000 --maxPerDeg 2 --numDeg 100\n";
+    std::cout << "  ./mainEDS-GEN --type R --outputName intensive --totSize 1000\n";
     return 0;
 
 }
-int rawGeneration(std::ofstream& file){
+int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     //char sigma[SIGMA_SIZE] = SIGMA;
     std::cout << "Gen RAW-String" << std::endl;
 
@@ -128,6 +125,11 @@ int rawGeneration(std::ofstream& file){
     file.close();
     return 0;
 }
+void edsToRaw () {
+
+
+}
+
 std::string generateString (){
 
     std::string s;

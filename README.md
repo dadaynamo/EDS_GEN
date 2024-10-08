@@ -12,8 +12,12 @@ make eds
 ```
 make raw
 ```
-
-
+```
+make help
+```
+```
+make version
+```
 ### Classic Execution
 ```
 ./EDS-GEN [option] [argument] | ...

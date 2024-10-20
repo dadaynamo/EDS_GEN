@@ -30,7 +30,7 @@ using namespace std;
 
 //GLOBAL VARS --------------------------------------------------------
 
-char sigma[SIGMA_SIZE] = {'a', 'c', 'g', 't'};    
+char sigma[SIGMA_SIZE] = {'A', 'C', 'G', 'T'};    
 std::string outName; //file name senza estensione
 int totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
 int maxPerDeg; //numero massimo di stringhe in un insieme
@@ -119,7 +119,7 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
         output += sigma[random_index];  // Concatenazione del carattere casuale
     }
 
-    cout << "Final RAW-String " << output << endl; 
+    //cout << "Final RAW-String " << output << endl; 
     file << output;
     cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();
@@ -158,7 +158,7 @@ int edsGeneration(std::ofstream& file){
         output += degeneration; //inserisco un insieme nell'output
     }
 
-    cout << "output finale: " << output << endl;
+    //cout << "output finale: " << output << endl;
     file << output;
     cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();

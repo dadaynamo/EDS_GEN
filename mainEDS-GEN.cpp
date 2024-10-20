@@ -32,7 +32,7 @@ using namespace std;
 
 char sigma[SIGMA_SIZE] = {'A', 'C', 'G', 'T'};    
 std::string outName; //file name senza estensione
-int totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
+unsigned long totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
 int maxPerDeg; //numero massimo di stringhe in un insieme
 int numDegeneration; //numero di insiemi
 char type;
@@ -114,7 +114,7 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     //Creazione RAW-String classico
     std::string output;
 
-    for (int i = 0; i < totSize; ++i) {
+    for (unsigned long i = 0; i < totSize; ++i) {
         int random_index = rand() % SIGMA_SIZE;  // Genera un numero casuale tra 0 e 3
         output += sigma[random_index];  // Concatenazione del carattere casuale
     }

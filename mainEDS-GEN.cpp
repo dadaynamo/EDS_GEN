@@ -32,7 +32,7 @@ using namespace std;
 
 char sigma[SIGMA_SIZE] = {'A', 'C', 'G', 'T'};    
 std::string outName; //file name senza estensione
-unsigned long totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
+unsigned long long totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
 int maxPerDeg; //numero massimo di stringhe in un insieme
 int numDegeneration; //numero di insiemi
 char type;
@@ -171,6 +171,12 @@ void printGlobal (){
     cout << "numDegeneration " << numDegeneration << endl;
     cout << "Type " << type << endl;
 }
+unsigned long long gb_to_bytes(unsigned int gb) {
+    // 1 GB = 1024^3 Byte
+    unsigned long long bytes_in_gb = 1024ULL * 1024ULL * 1024ULL;
+    return gb * bytes_in_gb;
+}
+
 
 //MAIN ----------------------------------------------------------------
 int main(int argc, char* argv[]){
@@ -222,7 +228,8 @@ int main(int argc, char* argv[]){
             }
         } else if (strcmp(argv[i], "--totSize") == 0) {
             if (i + 1 < argc) {
-                totSize = std::stoi(argv[i + 1]); // Converte in intero
+
+                totSize = gb_to_bytes(std::stoi(argv[i + 1])); // Converte in intero
             }
         } else if (strcmp(argv[i], "--outputName") == 0) {
             if (i + 1 < argc) {

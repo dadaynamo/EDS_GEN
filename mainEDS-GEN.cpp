@@ -5,7 +5,9 @@
 #include <ctime>    // Per time()
 #include <fstream> // Libreria per la gestione dei file
 #include <random>
-
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
 /*
 Pensare all'intensive EDS, con qualche pattern molto ripetitivo.
 Aggiungere gli spazi vuoti nelle EDS come degenerazioni
@@ -110,17 +112,29 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     cout << "Tot size DNA -> " << totSize <<endl;
     cout << "------------------------------"  << endl;
 
+    // Definisci una dimensione di blocco per la scrittura incrementale
+    const unsigned long long chunkSize = 1000000;  // 1 milione di caratteri per blocco
+    char* buffer = new char[chunkSize + 1];  // Buffer temporaneo per ogni blocco
+
 
     //Creazione RAW-String classico
     std::string output;
 
-    for (unsigned long i = 0; i < totSize; ++i) {
-        int random_index = rand() % SIGMA_SIZE;  // Genera un numero casuale tra 0 e 3
-        output += sigma[random_index];  // Concatenazione del carattere casuale
+    for (unsigned long long i = 0; i < totSize; i += chunkSize) {
+         unsigned long long currentChunkSize = std::min(chunkSize, totSize - i);  // Gestisce l'ultimo blocco
+        
+        for (unsigned long j = 0; j < currentChunkSize; ++j) {
+            int random_index = rand() % SIGMA_SIZE;  // Genera un indice casuale tra 0 e 3
+            buffer[j] = sigma[random_index];  // Inserisce il carattere nel buffer
+        }
+
+        // Scrivi il blocco nel file
+        file.write(buffer, currentChunkSize); 
     }
 
-    //cout << "Final RAW-String " << output << endl; 
-    file << output;
+   /* //cout << "Final RAW-String " << output << endl; 
+    file << output;*/
+    delete[] buffer;  // Rilascia la memoria del buffer
     cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();
     return 0;

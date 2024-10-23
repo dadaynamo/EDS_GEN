@@ -113,7 +113,7 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     cout << "------------------------------"  << endl;
 
     // Definisci una dimensione di blocco per la scrittura incrementale
-    const unsigned long long chunkSize = 1000000;  // 1 milione di caratteri per blocco
+    const unsigned long long chunkSize = 100ULL * 1024 * 1024;  // 1 milione di caratteri per blocco
     char* buffer = new char[chunkSize + 1];  // Buffer temporaneo per ogni blocco
 
 
@@ -121,7 +121,7 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     std::string output;
 
     for (unsigned long long i = 0; i < totSize; i += chunkSize) {
-         unsigned long long currentChunkSize = std::min(chunkSize, totSize - i);  // Gestisce l'ultimo blocco
+         unsigned long currentChunkSize = std::min(chunkSize, totSize - i);  // Gestisce l'ultimo blocco
         
         for (unsigned long j = 0; j < currentChunkSize; ++j) {
             int random_index = rand() % SIGMA_SIZE;  // Genera un indice casuale tra 0 e 3
@@ -130,6 +130,8 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
 
         // Scrivi il blocco nel file
         file.write(buffer, currentChunkSize); 
+        cout << i << " Scrittura buffer" << endl;
+        
     }
 
    /* //cout << "Final RAW-String " << output << endl; 

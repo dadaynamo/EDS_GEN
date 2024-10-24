@@ -34,7 +34,7 @@ using namespace std;
 
 char sigma[SIGMA_SIZE] = {'A', 'C', 'G', 'T'};    
 std::string outName; //file name senza estensione
-unsigned long long totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
+int totSize; //numero massimo di caratteri di ogni singola sequenza degenerata
 int maxPerDeg; //numero massimo di stringhe in un insieme
 int numDegeneration; //numero di insiemi
 char type;
@@ -100,6 +100,50 @@ int displayHelp() { //descrizione generale
     return 0;
 
 }
+
+int rawGeneration(std::ofstream& file){ //generazione DNA RAW
+    //char sigma[SIGMA_SIZE] = SIGMA;
+    std::cout << "Gen RAW-String" << std::endl;
+
+    // Inizializza il generatore di numeri casuali
+    srand(static_cast<unsigned int>(time(nullptr)));
+
+    cout << "------------------------------"  << endl;
+    cout << "filename output -> " << outName <<endl;
+    cout << "Tot size DNA -> " << totSize <<endl;
+    cout << "------------------------------"  << endl;
+
+    // Definisci una dimensione di blocco per la scrittura incrementale
+    const long chunkSize = 1024 * 1024 * 1024;  // 1 GB di blocco chunk
+    char* buffer = new char[chunkSize + 1];  // Buffer temporaneo per ogni blocco
+
+
+    //Creazione RAW-String classico
+    std::string output;
+
+    for (int i = 0; i < totSize; i += 1) {
+        // unsigned long currentChunkSize = std::min(chunkSize, totSize - i);  // Gestisce l'ultimo blocco
+        
+        for (unsigned long j = 0; j < chunkSize; ++j) {
+            int random_index = rand() % SIGMA_SIZE;  // Genera un indice casuale tra 0 e 3
+            buffer[j] = sigma[random_index];  // Inserisce il carattere nel buffer
+        }
+
+        // Scrivi il blocco nel file
+        file.write(buffer, chunkSize); 
+        cout << i << " Scrittura buffer" << endl;
+        
+    }
+
+    //cout << "Final RAW-String " << output << endl; 
+    //file << output;
+    delete[] buffer;  // Rilascia la memoria del buffer
+    cout << "Scrittura su " << outName << " completata." << std::endl;
+    file.close();
+    return 0;
+}
+
+/*
 int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     //char sigma[SIGMA_SIZE] = SIGMA;
     std::cout << "Gen RAW-String" << std::endl;
@@ -134,13 +178,15 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
         
     }
 
-   /* //cout << "Final RAW-String " << output << endl; 
-    file << output;*/
+    //cout << "Final RAW-String " << output << endl; 
+    //file << output;
     delete[] buffer;  // Rilascia la memoria del buffer
     cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();
     return 0;
 }
+
+*/
 void edsToRaw () {
 
 
@@ -245,7 +291,7 @@ int main(int argc, char* argv[]){
         } else if (strcmp(argv[i], "--totSize") == 0) {
             if (i + 1 < argc) {
 
-                totSize = gb_to_bytes(std::stoi(argv[i + 1])); // Converte in intero
+                totSize = std::stoi(argv[i + 1]); // Converte in intero
             }
         } else if (strcmp(argv[i], "--outputName") == 0) {
             if (i + 1 < argc) {

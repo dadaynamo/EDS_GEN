@@ -9,7 +9,7 @@
 #include <fstream>
 #include <iostream>
 /*
-
+cicicio
 Pensare all'intensive EDS, con qualche pattern molto ripetitivo.
 Aggiungere gli spazi vuoti nelle EDS come degenerazioni
 Prendere spunto da https://github.com/webmasterar/EDSRand/blob/master/EDSRand.py per generazioni particolari

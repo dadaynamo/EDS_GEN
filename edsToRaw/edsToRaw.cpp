@@ -75,10 +75,42 @@ std::string readEDSFromFile(const std::string &filename) {
     return eds;
 }
 
-int main() {
+// Funzione per scrivere tutte le combinazioni in un file
+void writeCombinationsToFile(const std::vector<std::string> &combinations, const std::string &filename) {
+    std::ofstream file(filename);
+
+    if (file.is_open()) {
+        for (const std::string &combo : combinations) {
+            file << combo << "$";
+        }
+        file.close();
+    } else {
+        std::cerr << "Errore nell'apertura del file per scrittura: " << filename << std::endl;
+    }
+}
+
+int main(int argc, char* argv[]) {
+        //Verifica 0 parametri 
+    if (argc == 1){
+        std::cerr << "Error: Missing required parameters.\n";
+        return 1;
+    }
+
+    // > ./edsToRaw input output
+    // Controlla i parametri
+    if (argc < 3) {
+        std::cerr << "Uso: " << argv[0] << " <file_input> <file_output>\n";
+        return 1;
+    }
+
+    // File di input e output specificati dall'utente
+    std::string inputFilename = argv[1];
+    std::string outputFilename = argv[2];
+
+
     // Leggi il file .eds e preleva la stringa EDS
-    std::string filename = "input.eds";
-    std::string eds = readEDSFromFile(filename);
+    //std::string filename = argv[1];
+    std::string eds = readEDSFromFile(inputFilename);
 
     // Controlla se il file è stato letto correttamente
     if (eds.empty()) {
@@ -89,11 +121,11 @@ int main() {
     // Ottieni tutte le combinazioni possibili espandendo l'EDS
     std::vector<std::string> allCombinations = expandEDS(eds);
 
-    // Stampa tutte le combinazioni generate
-    std::cout << "Tutte le combinazioni possibili:\n";
-    for (const std::string &combo : allCombinations) {
-        std::cout << combo << std::endl;
-    }
+      // Scrivi le combinazioni nel file di output
+    writeCombinationsToFile(allCombinations, outputFilename);
+
+    // Messaggio di successo
+    std::cout << "Combinazioni generate e salvate in '" << outputFilename << "'.\n";
 
     return 0;
 }

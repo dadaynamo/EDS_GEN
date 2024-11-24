@@ -4,4 +4,4 @@ gitPush.sh
 /test/
 /edsToRaw/edsToRaw.o
 /edsToRaw/eds_gen
-
+/stringCheck/stringCheck

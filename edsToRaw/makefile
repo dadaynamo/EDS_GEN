@@ -1,5 +1,5 @@
 # Nome dell'eseguibile
-TARGET = eds_gen
+TARGET = edsToRaw
 
 # Compilatore
 CXX = g++

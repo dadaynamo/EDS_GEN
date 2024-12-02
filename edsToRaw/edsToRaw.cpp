@@ -1,12 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 #include <sstream>
 #include <stack>
-#include <vector>
 
 // Funzione per suddividere una stringa su un delimitatore, ad esempio ','
-// Non cambia rispetto al tuo codice
 std::vector<std::string> split(const std::string &s, char delimiter) {
     std::vector<std::string> tokens;
     std::string token;
@@ -17,43 +16,42 @@ std::vector<std::string> split(const std::string &s, char delimiter) {
     return tokens;
 }
 
-// Funzione ricorsiva ottimizzata per generare le combinazioni
-// Senza accumulare tutte le combinazioni in memoria, ma scrivendole direttamente nel file
-void generateCombinations(const std::string &eds, std::ofstream &outFile, std::string current = "", int pos = 0) {
-    std::stack<std::pair<std::string, int>> stack;
-    stack.push({current, pos});
+// Genera combinazioni senza caricarle tutte in memoria, scrivendole direttamente nel file
+void generateCombinationsToFile(const std::string &eds, std::ofstream &outFile) {
+    std::stack<std::pair<std::string, int>> stack;  // Pila per gestire lo stato
+    stack.push({"", 0});  // Inizializza con una stringa vuota e posizione iniziale
 
     while (!stack.empty()) {
-        auto [currentStr, pos] = stack.top();
+        auto [current, pos] = stack.top();
         stack.pop();
 
         while (pos < eds.size()) {
             if (eds[pos] == '{') {
-                // Individua un gruppo degenerato (tra le graffe)
+                // Individua il gruppo degenerato tra le graffe
                 std::string options;
                 pos++;
                 while (pos < eds.size() && eds[pos] != '}') {
                     options += eds[pos];
                     pos++;
                 }
+                pos++;  // Salta la chiusura '}'
 
                 // Processa ogni opzione separata da virgola
                 std::vector<std::string> variants = split(options, ',');
-
-                // Aggiungi ogni variante alla combinazione corrente e metti nel stack
-                for (const std::string &variant : variants) {
-                    stack.push({currentStr + variant, pos});
+                for (const auto &variant : variants) {
+                    stack.push({current + variant, pos});  // Aggiungi variante alla pila
                 }
+                break;  // Esci dal ciclo per processare le varianti
             } else {
                 // Aggiungi carattere singolo alla combinazione corrente
-                currentStr += eds[pos];
+                current += eds[pos];
                 pos++;
             }
+        }
 
-            // Scrivi la combinazione corrente nel file se è una combinazione finale
-            if (pos == eds.size()) {
-                outFile << currentStr << "$"; // Scrive la combinazione con il delimitatore "$"
-            }
+        // Se siamo alla fine, scriviamo la combinazione nel file
+        if (pos >= eds.size()) {
+            outFile << current << "$";  // Scrive la combinazione con delimitatore "$"
         }
     }
 }
@@ -74,43 +72,32 @@ std::string readEDSFromFile(const std::string &filename) {
 }
 
 int main(int argc, char* argv[]) {
-    // Verifica 0 parametri
-    if (argc == 1) {
-        std::cerr << "Error: Missing required parameters.\n";
-        return 1;
-    }
-
-    // > ./edsToRaw input output
-    // Controlla i parametri
+    // Verifica parametri
     if (argc < 3) {
         std::cerr << "Uso: " << argv[0] << " <file_input> <file_output>\n";
         return 1;
     }
 
-    // File di input e output specificati dall'utente
     std::string inputFilename = argv[1];
     std::string outputFilename = argv[2];
 
     // Leggi il file .eds e preleva la stringa EDS
     std::string eds = readEDSFromFile(inputFilename);
-
-    // Controlla se il file è stato letto correttamente
     if (eds.empty()) {
         std::cerr << "Il file è vuoto o non è stato trovato." << std::endl;
         return 1;
     }
 
-    // Apre il file di output per scrivere
+    // Apri il file di output
     std::ofstream outFile(outputFilename);
     if (!outFile.is_open()) {
         std::cerr << "Errore nell'apertura del file di output: " << outputFilename << std::endl;
         return 1;
     }
 
-    // Genera e scrive le combinazioni nel file di output
-    generateCombinations(eds, outFile);
+    // Genera combinazioni e scrivile nel file
+    generateCombinationsToFile(eds, outFile);
 
-    // Messaggio di successo
     std::cout << "Combinazioni generate e salvate in '" << outputFilename << "'.\n";
 
     outFile.close();

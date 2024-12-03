@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <stack>
+#include <random>
 /*
     {AC,G}{GC,TT}{A}
 */
@@ -89,9 +90,46 @@ int main(int argc, char* argv[]) {
     }
 
     //GENERAZIONE DI K COMBINAZIONI
+    string Pathvect = "";
+    int cinsert = 0;
+    std::string path = "";
+    while (cinsert < k){
+        for(int i=0; i<N; i++){
+            // Generatore casuale
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> distrib(1, degen[i]);
+
+            int n = distrib(gen);
+            cout << n <<endl; 
+            path = path + std::to_string(n);
+        }
+
+        // Cerca il pattern nella stringa
+        if (Pathvect.find(path) != std::string::npos) {
+            std::cout << "Il pattern è stato trovato!" << std::endl;
+        } else {
+            std::cout << "Il pattern non è stato trovato." << std::endl;
+            Pathvect = Pathvect + "$" + path;
+            cinsert ++;
+        }
+    }
 
 
-    
+    cout << "Il Pathvect è: " << Pathvect << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
     std::cout << "Combinazioni generate e salvate in '" << outputFilename << "'.\n";
     file.close();
     return 0;

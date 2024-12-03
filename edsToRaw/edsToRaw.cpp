@@ -14,6 +14,7 @@ using namespace std;
     std::vector<int> degen; // Vettore di interi
     int N = 0; // Numero di simboli degeneri nel file EDS
     int MaxComb = 1; //Numero massimo di combinazioni creabili con il file EDS
+    int MAX_NUM = INT32_MAX; 
 
 // Funzione per suddividere una stringa su un delimitatore, ad esempio ','
 std::vector<std::string> split(const std::string &s, char delimiter) {
@@ -78,8 +79,14 @@ int main(int argc, char* argv[]) {
    
     for(int i=0; i<N; i++){
         MaxComb = MaxComb * degen[i];
+        if(MaxComb < 0){
+            //sforato
+            MaxComb = MAX_NUM;
+            break;
+        }
         cout << MaxComb << " " << degen[i] <<endl;  
     }
+
 
     int k = 0;
     cout << "Inserisci numero K di combinazioni da creare nel file Raw." <<endl << "Numero max creabile è " << MaxComb << endl;

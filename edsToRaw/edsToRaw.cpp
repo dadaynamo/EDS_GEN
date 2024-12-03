@@ -4,6 +4,15 @@
 #include <string>
 #include <sstream>
 #include <stack>
+/*
+    {AC,G}{GC,TT}{A}
+*/
+using namespace std;
+
+/* GLOBAL*/
+    std::vector<int> degen; // Vettore di interi
+    int N = 0; // Numero di simboli degeneri nel file EDS
+    int MaxComb = 1; //Numero massimo di combinazioni creabili con il file EDS
 
 // Funzione per suddividere una stringa su un delimitatore, ad esempio ','
 std::vector<std::string> split(const std::string &s, char delimiter) {
@@ -16,60 +25,26 @@ std::vector<std::string> split(const std::string &s, char delimiter) {
     return tokens;
 }
 
-// Genera combinazioni senza caricarle tutte in memoria, scrivendole direttamente nel file
-void generateCombinationsToFile(const std::string &eds, std::ofstream &outFile) {
-    std::stack<std::pair<std::string, int>> stack;  // Pila per gestire lo stato
-    stack.push({"", 0});  // Inizializza con una stringa vuota e posizione iniziale
 
-    while (!stack.empty()) {
-        auto [current, pos] = stack.top();
-        stack.pop();
-
-        while (pos < eds.size()) {
-            if (eds[pos] == '{') {
-                // Individua il gruppo degenerato tra le graffe
-                std::string options;
-                pos++;
-                while (pos < eds.size() && eds[pos] != '}') {
-                    options += eds[pos];
-                    pos++;
-                }
-                pos++;  // Salta la chiusura '}'
-
-                // Processa ogni opzione separata da virgola
-                std::vector<std::string> variants = split(options, ',');
-                for (const auto &variant : variants) {
-                    stack.push({current + variant, pos});  // Aggiungi variante alla pila
-                }
-                break;  // Esci dal ciclo per processare le varianti
-            } else {
-                // Aggiungi carattere singolo alla combinazione corrente
-                current += eds[pos];
-                pos++;
-            }
+void numDegenCalc(std::ifstream& file){
+    char c; // Variabile per memorizzare il carattere corrente
+    int count = 0;
+    while (file.get(c)) { // Leggi un carattere alla volta
+       // std::cout << c << endl; // Stampa il carattere
+        if (c == '{'){
+           // cout << "PER FORZA" << endl;
+            count = 0;
         }
-
-        // Se siamo alla fine, scriviamo la combinazione nel file
-        if (pos >= eds.size()) {
-            outFile << current << "$";  // Scrive la combinazione con delimitatore "$"
+        if(c == ','){
+            count ++; //passaggio parola nuova
+        }
+        if(c == '}'){
+            degen.push_back(count+1);
         }
     }
+
 }
 
-// Funzione per leggere la stringa EDS da un file .eds
-std::string readEDSFromFile(const std::string &filename) {
-    std::ifstream file(filename);
-    std::string eds;
-
-    if (file.is_open()) {
-        std::getline(file, eds);  // Legge tutto il contenuto della prima riga
-        file.close();
-    } else {
-        std::cerr << "Errore nell'apertura del file: " << filename << std::endl;
-    }
-
-    return eds;
-}
 
 int main(int argc, char* argv[]) {
     // Verifica parametri
@@ -80,26 +55,48 @@ int main(int argc, char* argv[]) {
 
     std::string inputFilename = argv[1];
     std::string outputFilename = argv[2];
+    std::ifstream file(inputFilename);
 
-    // Leggi il file .eds e preleva la stringa EDS
-    std::string eds = readEDSFromFile(inputFilename);
-    if (eds.empty()) {
-        std::cerr << "Il file è vuoto o non è stato trovato." << std::endl;
+    //Controllo file esiste
+    if (!file) { // Controlla se il file è stato aperto correttamente
+        std::cerr << "Errore nell'apertura del file " << inputFilename <<  " !" << std::endl;
+        return 1;
+    }
+    numDegenCalc(file); //GENERAZIONE Degen array
+
+    cout << "****************************************************************************" << endl;
+    cout << "Struttura dati degen creata con successo !! " << endl;
+    N = degen.size();
+    for (size_t i = 0; i < degen.size(); ++i) {
+        std::cout << degen[i] << " ";
+    }
+    cout << endl << "Numero di simboli degeneri (insiemi) è " << N << endl;
+    cout << "****************************************************************************" << endl;
+    
+    
+   
+    for(int i=0; i<N; i++){
+        MaxComb = MaxComb * degen[i];
+        cout << MaxComb << " " << degen[i] <<endl;  
+    }
+
+    int k = 0;
+    cout << "Inserisci numero K di combinazioni da creare nel file Raw." <<endl << "Numero max creabile è " << MaxComb << endl;
+    cin >> k;
+    if(k > MaxComb){
+        std::cerr << "Stai cercando di generare più combinazioni del previsto " << std::endl;
         return 1;
     }
 
-    // Apri il file di output
-    std::ofstream outFile(outputFilename);
-    if (!outFile.is_open()) {
-        std::cerr << "Errore nell'apertura del file di output: " << outputFilename << std::endl;
-        return 1;
-    }
+    //GENERAZIONE DI K COMBINAZIONI
 
-    // Genera combinazioni e scrivile nel file
-    generateCombinationsToFile(eds, outFile);
 
+    
     std::cout << "Combinazioni generate e salvate in '" << outputFilename << "'.\n";
-
-    outFile.close();
+    file.close();
     return 0;
 }
+
+/*
+    {AC,G}{GC,TT}{A}
+*/

@@ -102,7 +102,10 @@ int main(int argc, char* argv[]) {
 
             int n = distrib(gen);
             cout << n <<endl; 
-            path = path + std::to_string(n);
+            if(i != 0)
+            path = path + "-" + std::to_string(n);
+            else
+            path = path  + std::to_string(n);
         }
 
         // Cerca il pattern nella stringa
@@ -110,7 +113,11 @@ int main(int argc, char* argv[]) {
             std::cout << "Il pattern è stato trovato!" << std::endl;
         } else {
             std::cout << "Il pattern non è stato trovato." << std::endl;
+            if(cinsert == 0)
+            Pathvect = Pathvect + path;
+            if(cinsert != 0)
             Pathvect = Pathvect + "$" + path;
+            path = "";
             cinsert ++;
         }
     }

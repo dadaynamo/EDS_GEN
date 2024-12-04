@@ -87,6 +87,7 @@ int main(int argc, char* argv[]) {
         cout << MaxComb << " " << degen[i] <<endl;  
     }
 
+  
 
     int k = 0;
     cout << "Inserisci numero K di combinazioni da creare nel file Raw." <<endl << "Numero max creabile è " << MaxComb << endl;
@@ -108,7 +109,7 @@ int main(int argc, char* argv[]) {
             std::uniform_int_distribution<> distrib(1, degen[i]);
 
             int n = distrib(gen);
-            cout << n <<endl; 
+            //cout << n <<endl; 
             if(i != 0)
             path = path + "-" + std::to_string(n);
             else
@@ -119,29 +120,75 @@ int main(int argc, char* argv[]) {
         if (Pathvect.find(path) != std::string::npos) {
             std::cout << "Il pattern è stato trovato!" << std::endl;
         } else {
-            std::cout << "Il pattern non è stato trovato." << std::endl;
+            //std::cout << "Il pattern non è stato trovato." << std::endl;
             if(cinsert == 0)
             Pathvect = Pathvect + path;
             if(cinsert != 0)
-            Pathvect = Pathvect + "$" + path;
+            Pathvect = Pathvect + "-$-" + path;
             path = "";
             cinsert ++;
         }
     }
-
+    Pathvect = Pathvect + "|";
 
     cout << "Il Pathvect è: " << Pathvect << endl;
 
 
+    /*
+        INIZIO TRASFORMAZIONE Pathvect in stringhe concatenate
+     */
+    
+    // Resetta lo stato EOF e riporta il puntatore all'inizio
+    file.clear();              // Cancella lo stato EOF
+    file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
+
+
+    // 
+    int ins = 1; //Indice dell'insieme
+    int wInIns = 1; //indice parola dell'insieme
+    char c;
+    for(int i=0; i<Pathvect.size(); i++){ //per ogni carattere di Pathvect trasformo il numero in
+    if(Pathvect[i] == '-'){
+        continue;
+    }
+    if(Pathvect[i] == '$'){
+        cout << "Fine parola" << endl;
+        continue;
+    }
+
+    try {
+        int num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+        //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
+            
+        while (file.get(c)) { // Leggi un carattere alla volta
+        // std::cout << c << endl; // Stampa il carattere
+            if (c == '{'){
+            // cout << "PER FORZA" << endl;
+                ins ++;
+            }
+            if(c == ','){
+                wInIns ++;
+            }
+            if(c == '}'){
+            }
+        }
+            
+
+        std::cout << "Valore convertito: " << num+1 << std::endl;
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Errore: stringa non valida! Contenuto: " << Pathvect[i] << std::endl;
+    }
+
+    }
 
 
 
+    char c;
+    while (file.get(c)) { // Leggi un carattere alla volta
+        std::cout << c; // Stampa il carattere (puoi elaborarlo qui)
+    }
 
-
-
-
-
-
+    
 
 
     std::cout << "Combinazioni generate e salvate in '" << outputFilename << "'.\n";

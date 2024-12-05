@@ -146,49 +146,65 @@ int main(int argc, char* argv[]) {
     // 
     int ins = 1; //Indice dell'insieme
     int wInIns = 1; //indice parola dell'insieme
-    char c;
+    string word;
+    string Output;
     for(int i=0; i<Pathvect.size(); i++){ //per ogni carattere di Pathvect trasformo il numero in
     if(Pathvect[i] == '-'){
         continue;
     }
     if(Pathvect[i] == '$'){
         cout << "Fine parola" << endl;
+        Output = Output + "$";
         continue;
     }
 
     try {
         int num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+        std::cout << "Valore convertito: " << num << std::endl;
         //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
-            
+        char c;
         while (file.get(c)) { // Leggi un carattere alla volta
         // std::cout << c << endl; // Stampa il carattere
             if (c == '{'){
             // cout << "PER FORZA" << endl;
                 ins ++;
             }
-            if(c == ','){
+            else if(c == ','){
+                word = "";
+                if(num == wInIns){
+                    Output = Output + word;
+                    cout << "OutPut arricchito" << endl;
+                }
                 wInIns ++;
+                word = "";
             }
-            if(c == '}'){
+            else if(c == '}'){
+                ins ++;
             }
+            else{
+                word = word + c;
+                cout << word << endl;
+            }
+            
         }
             
 
-        std::cout << "Valore convertito: " << num+1 << std::endl;
+        
     } catch (const std::invalid_argument& e) {
         std::cerr << "Errore: stringa non valida! Contenuto: " << Pathvect[i] << std::endl;
     }
 
     }
 
+    cout << "Output Finale: "  << Output <<endl;
 
-
+/*
     char c;
     while (file.get(c)) { // Leggi un carattere alla volta
         std::cout << c; // Stampa il carattere (puoi elaborarlo qui)
     }
 
-    
+  */  
 
 
     std::cout << "Combinazioni generate e salvate in '" << outputFilename << "'.\n";

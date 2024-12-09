@@ -11,10 +11,10 @@
 using namespace std;
 
 /* GLOBAL*/
-    std::vector<int> degen; // Vettore di interi
-    int N = 0; // Numero di simboli degeneri nel file EDS
-    int MaxComb = 1; //Numero massimo di combinazioni creabili con il file EDS
-    int MAX_NUM = INT32_MAX; 
+std::vector<int> degen; // Vettore di interi
+int N = 0; // Numero di simboli degeneri nel file EDS
+int MaxComb = 1; //Numero massimo di combinazioni creabili con il file EDS
+int MAX_NUM = INT32_MAX; 
 
 // Funzione per suddividere una stringa su un delimitatore, ad esempio ','
 std::vector<std::string> split(const std::string &s, char delimiter) {
@@ -135,19 +135,74 @@ int main(int argc, char* argv[]) {
 
 
     /*
-        INIZIO TRASFORMAZIONE Pathvect in stringhe concatenate
+        INIZIO TRASFORMAZIONE Pathvect in stringhe concatenate -------------------------------------------------------------
      */
     
     // Resetta lo stato EOF e riporta il puntatore all'inizio
     file.clear();              // Cancella lo stato EOF
     file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
-
-
     // 
+
+
     int ins = 1; //Indice dell'insieme
     int wInIns = 1; //indice parola dell'insieme
-    string word;
-    string Output;
+    string word = ""; //Word corrente rilevata
+    string Output; // Output finale che scriverò su
+    char c; //lettera prelevata man mano dal file eds
+    int num; //val in Pathvect corrente
+    int i_num; //indice d'insieme corrispondente a num
+    int i=0; //indice scorrimento pathvect
+
+    //Cosi prelevo tutte le stringhe
+    while (!file.eof()) { // Leggi un carattere alla volta
+    
+    if(Pathvect[i] == '-'){
+        i_num ++;
+        continue;
+    }
+    if(Pathvect[i] == '$'){
+        cout << "Fine parola" << endl;
+        Output = Output + "$";
+        continue;
+    }
+
+    try {
+        file.get(c); //carico una nuova lettera dal file
+        int num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+        std::cout << "Valore convertito: " << num << std::endl;
+        //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
+        // std::cout << c << endl; // Stampa il carattere
+        
+        if (c == '{'){
+            //Non succede nulla
+            continue;
+        }
+        else if(c == ','){
+            cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
+            wInIns ++;
+            word = "";
+        }
+        else if(c == '}'){
+            cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
+            ins ++;
+            wInIns = 1;
+            word = "";
+        }
+        else{
+            word = word + c;
+            cout << word << endl;
+        }
+
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Errore: stringa non valida! Contenuto: " << Pathvect[i] << std::endl;
+    }
+
+ 
+        
+    }
+    
+//stampa solo le stringhe con i
+    
     for(int i=0; i<Pathvect.size(); i++){ //per ogni carattere di Pathvect trasformo il numero in
     if(Pathvect[i] == '-'){
         continue;
@@ -162,43 +217,19 @@ int main(int argc, char* argv[]) {
         int num = Pathvect[i] - '0'; // Converti il carattere in numero intero
         std::cout << "Valore convertito: " << num << std::endl;
         //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
-        char c;
-        while (file.get(c)) { // Leggi un carattere alla volta
-        // std::cout << c << endl; // Stampa il carattere
-            if (c == '{'){
-            // cout << "PER FORZA" << endl;
-                ins ++;
-            }
-            else if(c == ','){
-                word = "";
-                if(num == wInIns){
-                    Output = Output + word;
-                    cout << "OutPut arricchito" << endl;
-                }
-                wInIns ++;
-                word = "";
-            }
-            else if(c == '}'){
-                ins ++;
-            }
-            else{
-                word = word + c;
-                cout << word << endl;
-            }
-            
-        }
-            
-
         
     } catch (const std::invalid_argument& e) {
         std::cerr << "Errore: stringa non valida! Contenuto: " << Pathvect[i] << std::endl;
     }
 
     }
+    
+
+
 
     cout << "Output Finale: "  << Output <<endl;
 
-/*
+    /*
     char c;
     while (file.get(c)) { // Leggi un carattere alla volta
         std::cout << c; // Stampa il carattere (puoi elaborarlo qui)

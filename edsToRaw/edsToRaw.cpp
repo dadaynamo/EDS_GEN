@@ -143,67 +143,114 @@ int main(int argc, char* argv[]) {
     file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
     // 
 
-
-    int ins = 1; //Indice dell'insieme
-    int wInIns = 1; //indice parola dell'insieme
     string word = ""; //Word corrente rilevata
     string Output; // Output finale che scriverò su
     char c; //lettera prelevata man mano dal file eds
-    int num; //val in Pathvect corrente
-    int i_num; //indice d'insieme corrispondente a num
-    int i=0; //indice scorrimento pathvect
 
-    //Cosi prelevo tutte le stringhe
-    while (!file.eof()) { // Leggi un carattere alla volta
-    
-    if(Pathvect[i] == '-'){
-        i_num ++;
-        continue;
-    }
-    if(Pathvect[i] == '$'){
-        cout << "Fine parola" << endl;
-        Output = Output + "$";
-        continue;
-    }
+    int Ins = 1; //Indice dell'insieme FILE
+    int wInIns = 1; //indice parola dell'insieme FILE
+    int num; //val in Pathvect corrente PATHVECT
+    int i=0; //indice scorrimento PATHVECT
+    int i_num=1; //indice d'insieme corrispondente a num PATHVECT
 
-    try {
-        file.get(c); //carico una nuova lettera dal file
-        int num = Pathvect[i] - '0'; // Converti il carattere in numero intero
-        std::cout << "Valore convertito: " << num << std::endl;
-        //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
-        // std::cout << c << endl; // Stampa il carattere
-        
+    num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+
+    while (file.get(c)) { // Leggi un carattere alla volta
+        std::cout << "c prelevato:  " << c <<endl; // Stampa il carattere (puoi elaborarlo qui)
         if (c == '{'){
             //Non succede nulla
-            continue;
+            //continue;
         }
         else if(c == ','){
-            cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
-            wInIns ++;
+
+            if(Ins == i_num && wInIns == num){
+                cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
+                Output = Output + word;    
+
+                //prelevo un nuovo NUMERO da pathvect
+                i=i+2;
+                if(Pathvect[i] == '$'){
+                    cout << "Fine parola" << endl;
+                    Output = Output + "$";             
+                    cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
+                }else{ //ho trovato un numero in pathvect... lo posso allora usare
+                    num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+                    i_num++; //insieme di riferimento di questo nuovo numero
+                }
+            }
+ 
             word = "";
+            wInIns++;
+            cout << "Ins: " << Ins << " wInIns: "<< wInIns << " i_num: "<< i_num << " num: "<< num <<endl;
+            
         }
         else if(c == '}'){
-            cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
-            ins ++;
-            wInIns = 1;
+            if(Ins == i_num && wInIns == num){
+                cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
+                Output = Output + word;    
+
+                //prelevo un nuovo NUMERO da pathvect
+                i=i+2; cout << "i_ "<<i <<endl;
+                if(Pathvect[i] == '$'){
+                    cout << "Fine parola" << endl;
+                    Output = Output + "$";             
+                    cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
+                }else{ //ho trovato un numero in pathvect... lo posso allora usare
+                    num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+                }
+            }
             word = "";
+            wInIns=1;
+            Ins ++;
+            cout << "Ins: " << Ins << " wInIns: "<< wInIns << " i_num: "<< i_num << " num: "<< num <<endl;
         }
-        else{
+        else{ //c è un carattere ACGT
             word = word + c;
-            cout << word << endl;
+            cout << "word concatenata: " <<  word << endl;
         }
 
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Errore: stringa non valida! Contenuto: " << Pathvect[i] << std::endl;
     }
 
- 
-        
+        //std::cout << "Carattere prelevato : " << c << " Valore convertito: " << num << std::endl;
+
+
+
+    //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
+    // std::cout << c << endl; // Stampa il carattere
+    /*
+    if (c == '{'){
+        //Non succede nulla
+        continue;
     }
+
+    else if(c == ','){
+        if(num == wInIns && i_num == ins)
+        cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
+        i_num ++;
+        wInIns ++;
+        word = "";
+        i++;
+    }
+    else if(c == '}'){
+        cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
+        ins ++;
+        i_num++;
+        wInIns = 1;
+        word = "";
+    }
+    else{
+        word = word + c;
+        cout << word << endl;
+    }
+
+
+    */
+        
+    
     
 //stampa solo le stringhe con i
     
-    for(int i=0; i<Pathvect.size(); i++){ //per ogni carattere di Pathvect trasformo il numero in
+   /* for(int i=0; i<Pathvect.size(); i++){ //per ogni carattere di Pathvect trasformo il numero in
     if(Pathvect[i] == '-'){
         continue;
     }
@@ -223,7 +270,7 @@ int main(int argc, char* argv[]) {
     }
 
     }
-    
+    */
 
 
 

@@ -154,9 +154,10 @@ int main(int argc, char* argv[]) {
     int i_num=1; //indice d'insieme corrispondente a num PATHVECT
 
     num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+    cout << "Partenza: Ins: " << Ins << " wInIns: " << wInIns << " num: " << num << " i_num: " << i_num << endl;
 
     while (file.get(c)) { // Leggi un carattere alla volta
-        std::cout << "c prelevato:  " << c <<endl; // Stampa il carattere (puoi elaborarlo qui)
+        std::cout << "c prelevato:  " << c <<" Ins: " << Ins << " wInIns: " << wInIns << " num: " << num << " i_num: " << i_num  <<endl; // Stampa il carattere (puoi elaborarlo qui)
         if (c == '{'){
             //Non succede nulla
             //continue;
@@ -173,6 +174,23 @@ int main(int argc, char* argv[]) {
                     cout << "Fine parola" << endl;
                     Output = Output + "$";             
                     cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
+                    //ricarico il puntatore di lettura e resetto tutto
+                    // Resetta lo stato EOF e riporta il puntatore all'inizio
+                    file.clear();              // Cancella lo stato EOF
+                    file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
+                    // 
+                    Ins = 1; //Indice dell'insieme FILE
+                    wInIns = 1; //indice parola dell'insieme FILE
+                    i=i+2;
+                    i_num=1; //indice d'insieme corrispondente a num PATHVECT
+                    word="";
+                    num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+                    continue;
+
+                    
+                }else if(Pathvect[i] == '|'){
+                    cout << "FINISHED" <<endl;
+                    break;
                 }else{ //ho trovato un numero in pathvect... lo posso allora usare
                     num = Pathvect[i] - '0'; // Converti il carattere in numero intero
                     i_num++; //insieme di riferimento di questo nuovo numero
@@ -190,23 +208,41 @@ int main(int argc, char* argv[]) {
                 Output = Output + word;    
 
                 //prelevo un nuovo NUMERO da pathvect
-                i=i+2; cout << "i_ "<<i <<endl;
+                i=i+2; cout << "i_ "<< i <<" Pathvect prossimo: " << Pathvect[i]<<endl;
                 if(Pathvect[i] == '$'){
                     cout << "Fine parola" << endl;
                     Output = Output + "$";             
                     cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
+                                        //ricarico il puntatore di lettura e resetto tutto
+                    // Resetta lo stato EOF e riporta il puntatore all'inizio
+                    file.clear();              // Cancella lo stato EOF
+                    file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
+                    // 
+                    Ins = 1; //Indice dell'insieme FILE
+                    wInIns = 1; //indice parola dell'insieme FILE
+                    i=i+2;
+                    i_num=1; //indice d'insieme corrispondente a num PATHVECT
+                    num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+                    word="";
+                    continue;
+   
+
+                }else if(Pathvect[i] == '|'){
+                    cout << "FINISHED" <<endl;
+                    break;
                 }else{ //ho trovato un numero in pathvect... lo posso allora usare
                     num = Pathvect[i] - '0'; // Converti il carattere in numero intero
+                    i_num++;
                 }
             }
             word = "";
             wInIns=1;
-            Ins ++;
+            Ins++;
             cout << "Ins: " << Ins << " wInIns: "<< wInIns << " i_num: "<< i_num << " num: "<< num <<endl;
         }
         else{ //c è un carattere ACGT
             word = word + c;
-            cout << "word concatenata: " <<  word << endl;
+            //cout << "word concatenata: " <<  word << endl;
         }
 
     }

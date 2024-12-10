@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
             MaxComb = MAX_NUM;
             break;
         }
-        cout << MaxComb << " " << degen[i] <<endl;  
+        //cout << MaxComb << " " << degen[i] <<endl;  
     }
 
   
@@ -164,10 +164,10 @@ int main(int argc, char* argv[]) {
     int i_num=1; //indice d'insieme corrispondente a num PATHVECT
 
     num = Pathvect[i] - '0'; // Converti il carattere in numero intero
-    cout << "Partenza: Ins: " << Ins << " wInIns: " << wInIns << " num: " << num << " i_num: " << i_num << endl;
+    //cout << "Partenza: Ins: " << Ins << " wInIns: " << wInIns << " num: " << num << " i_num: " << i_num << endl;
 
     while (file.get(c)) { // Leggi un carattere alla volta
-        std::cout << "c prelevato:  " << c <<" Ins: " << Ins << " wInIns: " << wInIns << " num: " << num << " i_num: " << i_num  <<endl; // Stampa il carattere (puoi elaborarlo qui)
+       // std::cout << "c prelevato:  " << c <<" Ins: " << Ins << " wInIns: " << wInIns << " num: " << num << " i_num: " << i_num  <<endl; // Stampa il carattere (puoi elaborarlo qui)
         if (c == '{'){
             //Non succede nulla
             //continue;
@@ -175,13 +175,13 @@ int main(int argc, char* argv[]) {
         else if(c == ','){
 
             if(Ins == i_num && wInIns == num){
-                cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
+                //cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
                 Output = Output + word;    
                 fileOut << word;
                 //prelevo un nuovo NUMERO da pathvect
                 i=i+2;
                 if(Pathvect[i] == '$'){
-                    cout << "Fine parola" << endl;
+                    //cout << "Fine parola" << endl;
                     Output = Output + "$"; 
                     fileOut << "$";            
                     cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
@@ -210,18 +210,18 @@ int main(int argc, char* argv[]) {
  
             word = "";
             wInIns++;
-            cout << "Ins: " << Ins << " wInIns: "<< wInIns << " i_num: "<< i_num << " num: "<< num <<endl;
+            //cout << "Ins: " << Ins << " wInIns: "<< wInIns << " i_num: "<< i_num << " num: "<< num <<endl;
             
         }
         else if(c == '}'){
             if(Ins == i_num && wInIns == num){
-                cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
+                //cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
                 Output = Output + word;    
                 fileOut << word;
                 //prelevo un nuovo NUMERO da pathvect
-                i=i+2; cout << "i_ "<< i <<" Pathvect prossimo: " << Pathvect[i]<<endl;
+                i=i+2;
                 if(Pathvect[i] == '$'){
-                    cout << "Fine parola" << endl;
+                    //cout << "Fine parola" << endl;
                     Output = Output + "$";  
                     fileOut << "$";           
                     cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
@@ -250,7 +250,7 @@ int main(int argc, char* argv[]) {
             word = "";
             wInIns=1;
             Ins++;
-            cout << "Ins: " << Ins << " wInIns: "<< wInIns << " i_num: "<< i_num << " num: "<< num <<endl;
+            //cout << "Ins: " << Ins << " wInIns: "<< wInIns << " i_num: "<< i_num << " num: "<< num <<endl;
         }
         else{ //c è un carattere ACGT
             word = word + c;
@@ -259,8 +259,9 @@ int main(int argc, char* argv[]) {
 
     }
 
-    cout << "Output Finale: "  << Output <<endl;
+   // cout << "Output Finale: "  << Output <<endl;
 
+    cout << "le k combinazioni scritte correttamente in "<< outputFilename << endl; 
     file.close();
     fileOut.close(); // Chiudi il file Out
     return 0;

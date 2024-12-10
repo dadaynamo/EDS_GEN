@@ -142,6 +142,16 @@ int main(int argc, char* argv[]) {
     file.clear();              // Cancella lo stato EOF
     file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
     // 
+    
+    // Apro in modalità appen il file output
+    std::ofstream fileOut(outputFilename, std::ios::app);
+
+    if (!fileOut.is_open()) { // Controlla se il file è stato aperto correttamente
+        std::cerr << "Errore: impossibile aprire il file." << std::endl;
+        return 1;
+    }
+
+
 
     string word = ""; //Word corrente rilevata
     string Output; // Output finale che scriverò su
@@ -167,12 +177,13 @@ int main(int argc, char* argv[]) {
             if(Ins == i_num && wInIns == num){
                 cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
                 Output = Output + word;    
-
+                fileOut << word;
                 //prelevo un nuovo NUMERO da pathvect
                 i=i+2;
                 if(Pathvect[i] == '$'){
                     cout << "Fine parola" << endl;
-                    Output = Output + "$";             
+                    Output = Output + "$"; 
+                    fileOut << "$";            
                     cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
                     //ricarico il puntatore di lettura e resetto tutto
                     // Resetta lo stato EOF e riporta il puntatore all'inizio
@@ -206,12 +217,13 @@ int main(int argc, char* argv[]) {
             if(Ins == i_num && wInIns == num){
                 cout << "-------------------- word tecnica: " <<  word << " Insieme da cui è stata presa: " << Ins << " indice nell'insieme preso: "<< wInIns << " insieme detto da pathvect: "<< i_num << " Num:"<< num <<endl;
                 Output = Output + word;    
-
+                fileOut << word;
                 //prelevo un nuovo NUMERO da pathvect
                 i=i+2; cout << "i_ "<< i <<" Pathvect prossimo: " << Pathvect[i]<<endl;
                 if(Pathvect[i] == '$'){
                     cout << "Fine parola" << endl;
-                    Output = Output + "$";             
+                    Output = Output + "$";  
+                    fileOut << "$";           
                     cout << "FINE WORD DI PATHVECT: ho trovato un $" <<endl;
                                         //ricarico il puntatore di lettura e resetto tutto
                     // Resetta lo stato EOF e riporta il puntatore all'inizio
@@ -247,85 +259,18 @@ int main(int argc, char* argv[]) {
 
     }
 
-        //std::cout << "Carattere prelevato : " << c << " Valore convertito: " << num << std::endl;
-
-
-
-    //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
-    // std::cout << c << endl; // Stampa il carattere
-    /*
-    if (c == '{'){
-        //Non succede nulla
-        continue;
-    }
-
-    else if(c == ','){
-        if(num == wInIns && i_num == ins)
-        cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
-        i_num ++;
-        wInIns ++;
-        word = "";
-        i++;
-    }
-    else if(c == '}'){
-        cout << "Final string : " << word << " | " << "ins: " << ins << " wInIns: " << wInIns << endl;
-        ins ++;
-        i_num++;
-        wInIns = 1;
-        word = "";
-    }
-    else{
-        word = word + c;
-        cout << word << endl;
-    }
-
-
-    */
-        
-    
-    
-//stampa solo le stringhe con i
-    
-   /* for(int i=0; i<Pathvect.size(); i++){ //per ogni carattere di Pathvect trasformo il numero in
-    if(Pathvect[i] == '-'){
-        continue;
-    }
-    if(Pathvect[i] == '$'){
-        cout << "Fine parola" << endl;
-        Output = Output + "$";
-        continue;
-    }
-
-    try {
-        int num = Pathvect[i] - '0'; // Converti il carattere in numero intero
-        std::cout << "Valore convertito: " << num << std::endl;
-        //Dentro num ho il numero della corrispondente stringa da prendere dal file eds
-        
-    } catch (const std::invalid_argument& e) {
-        std::cerr << "Errore: stringa non valida! Contenuto: " << Pathvect[i] << std::endl;
-    }
-
-    }
-    */
-
-
-
     cout << "Output Finale: "  << Output <<endl;
 
-    /*
-    char c;
-    while (file.get(c)) { // Leggi un carattere alla volta
-        std::cout << c; // Stampa il carattere (puoi elaborarlo qui)
-    }
-
-  */  
-
-
-    std::cout << "Combinazioni generate e salvate in '" << outputFilename << "'.\n";
     file.close();
+    fileOut.close(); // Chiudi il file Out
     return 0;
 }
 
-/*
-    {AC,G}{GC,TT}{A}
-*/
+
+ 
+
+
+
+
+
+

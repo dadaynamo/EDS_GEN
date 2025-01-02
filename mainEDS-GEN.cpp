@@ -153,7 +153,7 @@ std::string generateString (){
     }
     return s;
 }
-int edsGeneration(std::ofstream& file){
+/*int edsGeneration(std::ofstream& file){
  
     std::string output;
 
@@ -176,7 +176,34 @@ int edsGeneration(std::ofstream& file){
     cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();
     return 0;
+}*/
+
+int edsGeneration(std::ofstream& file){
+ 
+    std::string output;
+
+    for(int i = 0; i<numDegeneration; i++){ //Insiemi
+        std::string degeneration = "{";
+
+        int random = generateRandomNumber(1,maxPerDeg); //numero parole in un insieme
+        for(int j=0; j<random ; j++){ //Crea una parola
+            std::string s = generateString();
+            degeneration += s;
+            if(j != random-1) degeneration += ',';
+        }
+
+        degeneration += "}";
+        output += degeneration; //inserisco un insieme nell'output
+        file << degeneration; //Scrittura bufferizzata
+        cout << "Scrittura numero " << i+1 << " completata!!" << endl;
+    }
+
+
+    cout << "Scrittura su " << outName << " completata." << std::endl;
+    file.close();
+    return 0;
 }
+
 void printGlobal (){
     cout << "outName " << outName << endl;
     cout << "maxPerDeg " << maxPerDeg << endl;

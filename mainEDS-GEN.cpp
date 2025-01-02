@@ -49,9 +49,10 @@ int generateRandomNumber(int min, int max) { //gen num tra min e max compresi
 
     // Definisce una distribuzione uniforme tra min e max inclusivi
     std::uniform_int_distribution<> distrib(min, max);
-
+    int num = 0 ;
+    while(num < ((max-min)/1.2)) num = distrib(gen); //Mettere un numero nella guardia tra 1 e 2. Piu vicino è a 1 e più la dimensione totale di ogni parola si avvicinera a totSize
     // Genera il numero casuale
-    return distrib(gen);
+    return num;
 }
 
 int displayVersion(){ //mostra la versione del progetto
@@ -150,10 +151,11 @@ std::string generateString (){
 
     std::string s;
     int random = generateRandomNumber(1,totSize); //per fare le singole parole di dimensione randomica
-      for (int i = 0; i < random; ++i) {
-        int random_index = generateRandomNumber(0,3);  // Genera un numero casuale tra 0 e 3
-        s += sigma[random_index];  // Concatenazione del carattere casuale
+    for (int i = 0; i < random; ++i) {
+            int random_index = generateRandomNumber(0,3);  // Genera un numero casuale tra 0 e 3
+            s += sigma[random_index];  // Concatenazione del carattere casuale
     }
+    cout << random << " " ; //stampo dim parola creata
     return s;
 }
 
@@ -165,10 +167,12 @@ int edsGeneration(std::ofstream& file){
         std::string degeneration = "{";
 
         int random = generateRandomNumber(1,maxPerDeg); //numero parole in un insieme
+        cout << "numDeg: " << random << " - ";
         for(int j=0; j<random ; j++){ //Crea una parola
             std::string s = generateString();
             degeneration += s;
             if(j != random-1) degeneration += ',';
+
         }
 
         degeneration += "}";

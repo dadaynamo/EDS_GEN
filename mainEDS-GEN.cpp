@@ -143,55 +143,6 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     return 0;
 }
 
-/*
-int rawGeneration(std::ofstream& file){ //generazione DNA RAW
-    //char sigma[SIGMA_SIZE] = SIGMA;
-    std::cout << "Gen RAW-String" << std::endl;
-
-    // Inizializza il generatore di numeri casuali
-    srand(static_cast<unsigned int>(time(nullptr)));
-
-    cout << "------------------------------"  << endl;
-    cout << "filename output -> " << outName <<endl;
-    cout << "Tot size DNA -> " << totSize <<endl;
-    cout << "------------------------------"  << endl;
-
-    // Definisci una dimensione di blocco per la scrittura incrementale
-    const unsigned long long chunkSize = 100ULL * 1024 * 1024;  // 1 milione di caratteri per blocco
-    char* buffer = new char[chunkSize + 1];  // Buffer temporaneo per ogni blocco
-
-
-    //Creazione RAW-String classico
-    std::string output;
-
-    for (unsigned long long i = 0; i < totSize; i += chunkSize) {
-         unsigned long currentChunkSize = std::min(chunkSize, totSize - i);  // Gestisce l'ultimo blocco
-        
-        for (unsigned long j = 0; j < currentChunkSize; ++j) {
-            int random_index = rand() % SIGMA_SIZE;  // Genera un indice casuale tra 0 e 3
-            buffer[j] = sigma[random_index];  // Inserisce il carattere nel buffer
-        }
-
-        // Scrivi il blocco nel file
-        file.write(buffer, currentChunkSize); 
-        cout << i << " Scrittura buffer" << endl;
-        
-    }
-
-    //cout << "Final RAW-String " << output << endl; 
-    //file << output;
-    delete[] buffer;  // Rilascia la memoria del buffer
-    cout << "Scrittura su " << outName << " completata." << std::endl;
-    file.close();
-    return 0;
-}
-
-*/
-void edsToRaw () {
-
-
-}
-
 std::string generateString (){
 
     std::string s;

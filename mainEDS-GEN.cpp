@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <cstdlib>
+
 /*
 Pensare all'intensive EDS, con qualche pattern molto ripetitivo.
 Aggiungere gli spazi vuoti nelle EDS come degenerazioni
@@ -140,6 +142,7 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
     delete[] buffer;  // Rilascia la memoria del buffer
     cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();
+    std::system("beep -f 750 -l 300"); // 750 Hz per 300 ms
     return 0;
 }
 
@@ -153,30 +156,6 @@ std::string generateString (){
     }
     return s;
 }
-/*int edsGeneration(std::ofstream& file){
- 
-    std::string output;
-
-    for(int i = 0; i<numDegeneration; i++){ //Insiemi
-        std::string degeneration = "{";
-
-        int random = generateRandomNumber(1,maxPerDeg); //numero parole in un insieme
-        for(int j=0; j<random ; j++){ //Crea una parola
-            std::string s = generateString();
-            degeneration += s;
-            if(j != random-1) degeneration += ',';
-        }
-
-        degeneration += "}";
-        output += degeneration; //inserisco un insieme nell'output
-    }
-
-    //cout << "output finale: " << output << endl;
-    file << output;
-    cout << "Scrittura su " << outName << " completata." << std::endl;
-    file.close();
-    return 0;
-}*/
 
 int edsGeneration(std::ofstream& file){
  
@@ -201,6 +180,7 @@ int edsGeneration(std::ofstream& file){
 
     cout << "Scrittura su " << outName << " completata." << std::endl;
     file.close();
+    std::system("beep -f 750 -l 300"); // 750 Hz per 300 ms
     return 0;
 }
 

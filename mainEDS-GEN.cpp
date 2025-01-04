@@ -42,7 +42,7 @@ int numDegeneration; //numero di insiemi
 char type;
 
 //FUNCTIONS ----------------------------------------------------------
-int generateRandomNumber(int min, int max) { //gen num tra min e max compresi
+int generateRandomNumberForString(int min, int max) { //gen num tra min e max compresi
     // Inizializza il generatore di numeri casuali con un seme basato sul tempo attuale
     std::random_device rd;  // Generatore casuale basato su hardware
     std::mt19937 gen(rd());  // Mersenne Twister, un buon generatore di numeri pseudo-casuali
@@ -53,6 +53,15 @@ int generateRandomNumber(int min, int max) { //gen num tra min e max compresi
     while(num < ((max-min)/1.2)) num = distrib(gen); //Mettere un numero nella guardia tra 1 e 2. Piu vicino è a 1 e più la dimensione totale di ogni parola si avvicinera a totSize
     // Genera il numero casuale
     return num;
+}
+int generateRandomNumber(int min, int max) { //gen num tra min e max compresi
+    // Inizializza il generatore di numeri casuali con un seme basato sul tempo attuale
+    std::random_device rd;  // Generatore casuale basato su hardware
+    std::mt19937 gen(rd());  // Mersenne Twister, un buon generatore di numeri pseudo-casuali
+
+    // Definisce una distribuzione uniforme tra min e max inclusivi
+    std::uniform_int_distribution<> distrib(min, max);
+    return distrib(gen);
 }
 
 int displayVersion(){ //mostra la versione del progetto
@@ -166,7 +175,7 @@ int edsGeneration(std::ofstream& file){
     for(int i = 0; i<numDegeneration; i++){ //Insiemi
         std::string degeneration = "{";
 
-        int random = generateRandomNumber(1,maxPerDeg); //numero parole in un insieme
+        int random = generateRandomNumberForString(1,maxPerDeg); //numero parole in un insieme
         cout << "numDeg: " << random << " - ";
         for(int j=0; j<random ; j++){ //Crea una parola
             std::string s = generateString();

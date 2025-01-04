@@ -159,7 +159,7 @@ int rawGeneration(std::ofstream& file){ //generazione DNA RAW
 std::string generateString (){
 
     std::string s;
-    int random = generateRandomNumber(1,totSize); //per fare le singole parole di dimensione randomica
+    int random = generateRandomNumberForString(1,totSize); //per fare le singole parole di dimensione randomica
     for (int i = 0; i < random; ++i) {
             int random_index = generateRandomNumber(0,3);  // Genera un numero casuale tra 0 e 3
             s += sigma[random_index];  // Concatenazione del carattere casuale

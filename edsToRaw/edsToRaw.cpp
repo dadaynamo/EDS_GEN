@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
     /*
         INIZIO TRASFORMAZIONE Pathvect in stringhe concatenate -------------------------------------------------------------
      */
- /*   
+  
     // Resetta lo stato EOF e riporta il puntatore all'inizio
     file.clear();              // Cancella lo stato EOF
     file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
@@ -294,7 +294,7 @@ int main(int argc, char* argv[]) {
     cout << "le k combinazioni scritte correttamente in "<< outputFilename << endl; 
     file.close();
     fileOut.close(); // Chiudi il file Out
-  */  return 0;
+    return 0;
 }
 
 

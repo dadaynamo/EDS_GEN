@@ -96,16 +96,17 @@ int main(int argc, char* argv[]) {
         std::cerr << "Stai cercando di generare più combinazioni del previsto " << std::endl;
         return 1;
     }
-
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    
     //GENERAZIONE DI K COMBINAZIONI
     string Pathvect = "";
     int cinsert = 0;
     std::string path = "";
+    /*
     while (cinsert < k){
         for(int i=0; i<N; i++){
             // Generatore casuale
-            std::random_device rd;
-            std::mt19937 gen(rd());
             std::uniform_int_distribution<> distrib(1, degen[i]);
 
             int n = distrib(gen);
@@ -128,7 +129,36 @@ int main(int argc, char* argv[]) {
             path = "";
             cinsert ++;
         }
+    }*/
+    while (cinsert < k) {
+        path = ""; // Reset della variabile `path` a ogni iterazione
+
+        for (int i = 0; i < N; i++) {
+            // Generatore casuale
+            std::uniform_int_distribution<> distrib(1, degen[i]);
+            int n = distrib(gen);
+
+            // Aggiungi il delimitatore solo se `path` non è vuoto
+            if (!path.empty()) {
+                path += "-";
+            }
+            path += std::to_string(n);
+        }
+
+        // Verifica se il pattern esiste già in Pathvect
+        if (Pathvect.find(path) != std::string::npos) {
+            std::cout << "Il pattern è stato trovato!" << std::endl;
+        } else {
+            // Aggiungi il nuovo path a Pathvect con il separatore corretto
+            if (cinsert == 0) {
+                Pathvect = path;
+            } else {
+                Pathvect += "-$-" + path;
+            }
+            cinsert++;
+        }
     }
+
     Pathvect = Pathvect + "|";
 
     cout << "Il Pathvect è: " << Pathvect << endl;
@@ -137,7 +167,7 @@ int main(int argc, char* argv[]) {
     /*
         INIZIO TRASFORMAZIONE Pathvect in stringhe concatenate -------------------------------------------------------------
      */
-    
+ /*   
     // Resetta lo stato EOF e riporta il puntatore all'inizio
     file.clear();              // Cancella lo stato EOF
     file.seekg(0, std::ios::beg); // Riporta il puntatore all'inizio
@@ -264,7 +294,7 @@ int main(int argc, char* argv[]) {
     cout << "le k combinazioni scritte correttamente in "<< outputFilename << endl; 
     file.close();
     fileOut.close(); // Chiudi il file Out
-    return 0;
+  */  return 0;
 }
 
 
